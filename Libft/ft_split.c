@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: magoosse <magoosse@student.s19.be>         +#+  +:+       +#+        */
+/*   By: magoosse <magoosse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 15:46:35 by magoosse          #+#    #+#             */
-/*   Updated: 2024/11/26 14:04:03 by magoosse         ###   ########.fr       */
+/*   Updated: 2025/02/23 23:20:45 by magoosse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,9 @@ static int	ft_stralloc(char *s, char c, char **result)
 
 	i = 0;
 	j = 0;
-	count = 0;
 	while (s[i] != '\0')
 	{
+		count = 0;
 		while (s[i] == c && s[i] != '\0')
 			i++;
 		while (s[i] != c && s[i] != '\0')
@@ -67,7 +67,6 @@ static int	ft_stralloc(char *s, char c, char **result)
 			result[j++] = (char *)malloc(sizeof(char) * (count + 1));
 			if (!result[j - 1])
 				return (ft_freeloc(result, j - 1), 0);
-			count = 0;
 		}
 	}
 	return (result[j] = NULL, 1);
@@ -102,21 +101,23 @@ char	**ft_split(char const *s, char c)
 
 	if (!s)
 		return (NULL);
+	if (ft_count((char *)s, c) <= 1)
+		return (NULL);
 	split = (char **)malloc(sizeof(char *) * (ft_count((char *)s, c) + 1));
 	if (!split)
 		return (NULL);
-	if (!ft_stralloc((char *)s, c, split))
+	if (ft_stralloc((char *)s, c, split) == 0)
 		return (free(split), NULL);
 	ft_fill(s, c, split);
 	return (split);
 }
 
-int	main(int ac, char **av)
+/*int	main(int ac, char **av)
 {
-	int	i;
-	char **split;
-	(void)ac;
+	int		i;
+	char	**split;
 
+	(void)ac;
 	i = 0;
 	split = ft_split(av[1], av[2][0]);
 	while (split[i])
@@ -124,4 +125,4 @@ int	main(int ac, char **av)
 		printf("%s\n", split[i]);
 		i++;
 	}
-}
+}*/
